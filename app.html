@@ -63,9 +63,84 @@
 
 
 	<main class="container mt-3">
-		<h1> App UI Goes Here</h1>
-		<input type="text" placeholder="Enter a Message" id="message">
-		<button class="btn btn-primary" id="btnSubmit">Display Message</button>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="dropdown my-3">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Pick a location
+					</button>
+					<ul class="dropdown-menu" id="eventDropDown">
+						<li><a class="dropdown-item" href="#">All</a></li>
+						<!-- event cities go  here-->
+					</ul>
+				</div>
+				<table class="table table-striped border shadow">
+					<thead>
+						<tr>
+							<th colspan="2">Stats for <span id="location">All Events</span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Total Attendance</td>
+							<td id="total">100</td>
+						</tr>
+						<tr>
+							<td>Average Attendance</td>
+							<td id="average">100</td>
+						</tr>
+						<tr>
+							<td>Most Attendance</td>
+							<td id="most">100</td>
+						</tr>
+						<tr>
+							<td>Least Attendance</td>
+							<td id="least">100</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-6">
+				<img src="/img/event-tracker.png" class="img-fluid p3">
+			</div>
+		</div>
+		<div>
+			<button class="btn-btn-secondary my-3">Add Data</button>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+								Event Name
+							</th>
+							<th>
+								City
+							</th>
+							<th>
+								State
+							</th>
+							<th>
+								Attendance
+							</th>
+							<th>
+								Date
+							</th>
+						</tr>
+					</thead>
+					<tbody id="eventTable">
+						<tr>
+							<td>ComicCon</td>
+							<td>New York</td>
+							<td>New York</td>
+							<td>240000</td>
+							<td>6/1/2017</td>
+	
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</main>
 
 
