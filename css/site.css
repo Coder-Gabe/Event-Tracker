@@ -6,7 +6,7 @@
     --gh-body-font: 'Roboto', sans-serif;
 
     /* colors */
-    --gh-primary-color: rgb(145, 203, 251);
+    --gh-primary-color: rgb(103, 175, 234);
     --gh-secondary-color: rgb(66, 148, 186);
     --gh-highlight-color: rgb(250, 225, 120);
     --gh-dark-color: #212121;
@@ -61,13 +61,18 @@ footer {
     flex-shrink: 0;
 }
 
-#mainNav {
-	background: var(--gh-background-color);
+/* end sticky footer  */
+
+
+nav {
+    background: var(--gh-primary-color);
 }
+
+
 
 footer {
 	background: var(--gh-primary-color);
-	color: #deeefb;
+	
 }
 
 footer .bi {
