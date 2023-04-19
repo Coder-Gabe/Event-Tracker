@@ -225,7 +225,7 @@ function viewFilteredEvents(dropdownItem) {
 
 
 function saveNewEvent() {
-	// get form input values
+	// get the form input values
 	let name = document.getElementById('newEventName').value;
 	let city = document.getElementById('NewEventCity').value;
 	let attendance = parseInt(document.getElementById('newEventAttendance').value);
