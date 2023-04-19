@@ -187,10 +187,24 @@ function getEventData() {
 	let data = localStorage.getItem('ghSuperDogEventData');
 
 	if (data == null) {
-		localStorage.setItem('ghSuperDogEventData', JSON.stringify(events));
+		let identifiedEvents = events.map((event) => {
+			event.id = generateId();
+			return event;
+		});
+
+		localStorage.setItem('ghSuperDogEventData', JSON.stringify(identifiedEvents));
+		data = localStorage.getItem('ghSuperDogEventData');
 	}
 
-	let currentEvents = data == null ? events : JSON.parse(data);
+	let currentEvents = JSON.parse(data);
+
+	if (currentEvents.some(event => event.id == undefined)) {
+
+		currentEvents.forEach(event => event.id = generateId());
+		
+		localStorage.setItem('ghSuperDogEventData', JSON.stringify(currentEvents));
+
+	}
 
 	return currentEvents;
 }
@@ -269,6 +283,11 @@ function ClearFields() {
 }
 
 
+function generateId() {
+	return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+		(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+	);
+}
 
 
 
