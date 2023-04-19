@@ -67,7 +67,7 @@ var events = [{
 
 function buildDropDown() {
 	let dropdownMenu = document.getElementById('eventDropDown');
-	dropdownMenu.innerHTML= '';
+	dropdownMenu.innerHTML = '';
 
 	let currentEvents = getEventData(); // TODO - get these from storage
 
@@ -110,7 +110,7 @@ function buildDropDown() {
 
 
 function displayEventData(currentEvents) {
-	
+
 
 	const eventTable = document.getElementById('eventTable');
 	const template = document.getElementById('tableRowTemplate');
@@ -127,6 +127,8 @@ function displayEventData(currentEvents) {
 		tableRow.querySelector('[data-id="attendance"]').textContent = event.attendance.toLocaleString();
 		tableRow.querySelector('[data-id="date"]').textContent = new Date(event.date).toLocaleDateString();
 
+		tableRow.querySelector('tr').setAttribute('data-event', event.id);
+
 		eventTable.appendChild(tableRow);
 
 	}
@@ -139,7 +141,7 @@ function calculateStats(currentEvents) {
 	let average = 0;
 	let most = 0;
 	let least = currentEvents[0].attendance;
-	
+
 	for (let i = 0; i < currentEvents.length; i++) {
 		let currentAttendance = currentEvents[i].attendance;
 
@@ -148,23 +150,23 @@ function calculateStats(currentEvents) {
 		if (currentAttendance > most) {
 			most = currentAttendance;
 		}
-		 if (currentAttendance < least){
+		if (currentAttendance < least) {
 			least = currentAttendance;
 		}
-		 
+
 	}
 
-		average = total / currentEvents.length;
+	average = total / currentEvents.length;
 
-		let stats = {
-			total: total,
-			average: average,
-			most: most,
-			least: least,
+	let stats = {
+		total: total,
+		average: average,
+		most: most,
+		least: least,
 
-		}
+	}
 
-		return stats;
+	return stats;
 }
 
 
@@ -201,7 +203,7 @@ function getEventData() {
 	if (currentEvents.some(event => event.id == undefined)) {
 
 		currentEvents.forEach(event => event.id = generateId());
-		
+
 		localStorage.setItem('ghSuperDogEventData', JSON.stringify(currentEvents));
 
 	}
@@ -245,21 +247,21 @@ function saveNewEvent() {
 	let attendance = parseInt(document.getElementById('newEventAttendance').value);
 
 	let dateValue = document.getElementById('newEventDate').value;
-	dateValue = new Date(dateValue);
+	dateValue = new Date(dateValue + ' 00:00');
 
 	let date = dateValue.toLocaleString();
 
 	let stateSelect = document.getElementById('newEventState');
 	let stateIndex = stateSelect.selectedIndex;
 	let state = stateSelect.options[stateIndex].text;
-	
+
 	//create a new event object
 	let newEvent = {
 		event: name,
 		city: city,
 		state: state,
 		attendance: attendance,
-		date: date,
+		date: date
 	};
 
 	// add it to the array of current events
@@ -290,4 +292,96 @@ function generateId() {
 }
 
 
+function editEvent(eventRow) {
+	let eventId = eventRow.getAttribute('data-event');
 
+	let currentEvents = getEventData();
+
+	let eventToEdit = currentEvents.find(eventObject => eventObject.id == eventId)
+
+	document.getElementById('editEventId').value = eventToEdit.id;
+	document.getElementById('editEventName').value = eventToEdit.event;
+	document.getElementById('editEventCity').value = eventToEdit.city;
+	document.getElementById('editEventAttendance').value = eventToEdit.attendance;
+
+
+	//format date
+	let eventDate = newDate (eventToEdit.date);
+	let eventDateString = eventDate.toISOString();
+	let dateArray = eventDateString.split('T');
+	let formattedDate = dateArray[0];
+
+	document.getElementById('editEventDate').value = formattedDate;
+
+	//format state
+
+	let editStateSelect = document.getElementById('editEventState');
+
+	// loop to find the option
+	for (let i = 0; i < editStateSelect.options.length; i++) {
+		let option = editStateSelect.options[i];
+
+		if (eventToEdit.state == option.text) {
+			editStateSelect.selectedIndex = i;
+		}
+	}
+
+}
+
+
+function deleteEvent() {
+
+	let eventId = document.getElementById('editEventId').value;
+
+	let currentEvents = getEventData();
+
+	let filteredEvents = currentEvents.filter(event => event.id != eventId);
+
+	localStorage.setItem('ghSuperDogEventData', JSON.stringify(filteredEvents));
+
+	buildDropDown();
+
+}
+
+
+function updateEvent() {
+	// get the form input values
+	let name = document.getElementById('editEventName').value;
+	let city = document.getElementById('editEventCity').value;
+	let attendance = parseInt(document.getElementById('editEventAttendance').value);
+	let eventId = document.getElementById('editEventId').value;
+
+	let dateValue = document.getElementById('editEventDate').value;
+	dateValue = new Date(dateValue + ' 00:00');
+
+	let date = dateValue.toLocaleString();
+
+	let stateSelect = document.getElementById('editEventState');
+	let stateIndex = stateSelect.selectedIndex;
+	let state = stateSelect.options[stateIndex].text;
+
+	//create a new event object
+	let newEvent = {
+		event: name,
+		city: city,
+		state: state,
+		attendance: attendance,
+		date: date,
+		id: eventId
+	};
+
+	let currentEvents = getEventData();
+
+	for ( i = 0; i < currentEvents.length; i++ ) {
+			if(currentEvents[i].id == eventId) {
+				currentEvents[i] = newEvent;
+				break;
+			}
+		}
+
+	localStorage.setItem('ghSuperDogEventData', JSON.stringify(currentEvents));
+
+	buildDropDown();
+
+
+}

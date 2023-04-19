@@ -150,7 +150,7 @@
 	</template>
 
 	<template id="tableRowTemplate">
-		<tr data-bs-toggle="modal" data-bs-target="#editEventModal" role="button">
+		<tr data-bs-toggle="modal" data-bs-target="#editEventModal" role="button" onclick="editEvent(this)">
 			<td data-id="event"></td>
 			<td data-id="city"></td>
 			<td data-id="state"></td>
@@ -270,13 +270,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Edit Event</h1>
+					<h1 class="modal-title fs-5" id="editModalLabel">Edit Event</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form id="editEventForm">
+					<input type="hidden" id="editEventId">
+
 					<div class="modal-body">
 	
-						<label for="editEvenName">Event Name</label>
+						<label for="editEventName">Event Name</label>
 						<div>
 							<input type="text" id="editEventName" class="form-control" placeholder="Event">
 						</div>
@@ -341,7 +343,7 @@
 								<option value="WY">Wyoming</option>
 							</select>
 						</div>
-						<label for="editEventAttendance">Atendance</label>
+						<label for="editEventAttendance">Attendance</label>
 						<div>
 							<input type="text" id="editEventAttendance" class="form-control" placeholder="Attendance">
 						</div>
@@ -357,11 +359,11 @@
 					<button type="button" class="btn btn-secondary me-auto" data-bs-dismiss="modal">
 						Close
 					</button>
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteEvent()">
 						Delete Event
 					</button>
 					<button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-						onclick="">
+						onclick="updateEvent()">
 						Save changes
 					</button>
 				</div>
